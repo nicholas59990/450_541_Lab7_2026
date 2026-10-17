@@ -24,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IsGrounded => isGrounded;
 
+    // Multiplies the normal speed. 1 = normal, 1.5 = 50% faster
+    // Other scripts (like PlayerPowerUps) are allowed to change it
+    public float SpeedMultiplier {get; set; } = 1f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -102,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         // Calculate velocity based on current forward vector
-        Vector3 targetVelocity = moveDirection * moveSpeed;
+        Vector3 targetVelocity = moveDirection * moveSpeed * SpeedMultiplier;
 
         // Apply movement while preserving vertical velocity (gravity/jumping)
         rb.linearVelocity = new Vector3(targetVelocity.x, rb.linearVelocity.y, targetVelocity.z);
